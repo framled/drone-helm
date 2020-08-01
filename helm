@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+PATH="/usr/bin/helm:$PATH"
+
+INIT_FILE=/opt/framled/kubectl/initialized
+
+if [ ! -f ${INIT_FILE} ]; then
+    init-kubectl
+    touch ${INIT_FILE}
+fi
+
+helm $@
