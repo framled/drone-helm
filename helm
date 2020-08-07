@@ -2,10 +2,9 @@
 
 set -e
 
-PATH="/usr/bin/helm:$PATH"
+PATH="/usr/local/bin/:$PATH"
 
-INIT_FILE=/opt/framled/kubectl/initialized
-
+INIT_FILE=/opt/helm-kubectl/initialized
 if [ ! -f ${INIT_FILE} ]; then
     init-kubectl
     touch ${INIT_FILE}

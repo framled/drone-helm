@@ -18,16 +18,15 @@ if [ ! -z ${PLUGIN_KUBERNETES_CERT} ]; then
   KUBERNETES_CERT=${PLUGIN_KUBERNETES_CERT}
 fi
 
-kubectl config set-credentials default --token=${KUBERNETES_TOKEN}
+kubectl config --kubeconfig="${KUBECONFIG}" set-credentials default --token=${KUBERNETES_TOKEN}
 
 if [ ! -z ${KUBERNETES_CERT} ]; then
   echo ${KUBERNETES_CERT} | base64 -d > ca.crt
-  kubectl config set-cluster default --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
+  kubectl config --kubeconfig="${KUBECONFIG}" set-cluster default --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
 else
   echo "WARNING: Using insecure connection to cluster"
-  kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
+  kubectl config --kubeconfig="${KUBECONFIG}" set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
 fi
 
-kubectl config set-context default --cluster=default --user=${PLUGIN_KUBERNETES_USER}
-kubectl config use-context default
-
+kubectl config --kubeconfig="${KUBECONFIG}" set-context default --cluster=default --user=${PLUGIN_KUBERNETES_USER}
+kubectl config --kubeconfig="${KUBECONFIG}" use-context default
